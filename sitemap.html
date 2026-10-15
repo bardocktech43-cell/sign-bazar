@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <title>Dynamic Sitemap - SuperStoreIndia</title>
+</head>
+<body>
+    <h1>XML Sitemap Feed for Googlebot</h1>
+    <pre id="xmlOutput">Loading sitemap...</pre>
+
+    <script>
+        const CLOUD_NAME = "dgugrfacv";
+        const WEBSITE_URL = "https://superstoreindia.netlify.app";
+
+        async function generateSitemap() {
+            const output = document.getElementById('xmlOutput');
+            try {
+                const response = await fetch(`https://res.cloudinary.com/${CLOUD_NAME}/image/list/smart_product.json?t=${Date.now()}`);
+                const data = await response.json();
+
+                if (!data.resources || data.resources.length === 0) {
+                    output.innerText = "No products found for sitemap.";
+                    return;
+                }
+
+                let xmlString = `<?xml version="1.0" encoding="UTF-8"?>\n`;
+                xmlString += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n`;
+
+                // Home page entry
+                xmlString += `  <url>\n`;
+                xmlString += `    <loc>${WEBSITE_URL}/</loc>\n`;
+                xmlString += `    <changefreq>always</changefreq>\n`;
+                xmlString += `    <priority>1.0</priority>\n`;
+                xmlString += `  </url>\n`;
+
+                // Dynamic Products entries with Images
+                data.resources.forEach(item => {
+                    const ctx = item.context?.custom || {};
+                    const name = ctx.n || "Product";
+                    const imageUrl = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${item.public_id}.${item.format}`;
+
+                    xmlString += `  <url>\n`;
+                    xmlString += `    <loc>${WEBSITE_URL}/?id=${item.public_id}</loc>\n`;
+                    xmlString += `    <image:image>\n`;
+                    xmlString += `      <image:loc>${imageUrl}</image:loc>\n`;
+                    xmlString += `      <image:title><![CDATA[${name}]]></image:title>\n`;
+                    xmlString += `    </image:image>\n`;
+                    xmlString += `    <changefreq>daily</changefreq>\n`;
+                    xmlString += `    <priority>0.8</priority>\n`;
+                    xmlString += `  </url>\n`;
+                });
+
+                xmlString += `</urlset>`;
+
+                // Displaying as plain text XML format
+                document.open();
+                document.write(`<textarea style="width:100%; height:400px; font-family:monospace;">${xmlString}</textarea>`);
+                document.close();
+
+            } catch (error) {
+                output.innerText = "Error generating sitemap: " + error.message;
+            }
+        }
+
+        generateSitemap();
+    </script>
+</body>
+</html>
