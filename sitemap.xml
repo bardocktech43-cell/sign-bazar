@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  
+  <!-- Main Home Page -->
+  <url>
+    <loc>https://superstoreindia.netlify.app/</loc>
+    <changefreq>always</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Product 1 Example with Image for Google Search -->
+  <url>
+    <loc>https://superstoreindia.netlify.app/</loc>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dgugrfacv/image/upload/v1/smart_product/product1.jpg</image:loc>
+      <image:title><![CDATA[SP Electron Multimeter Voltage Tester]]></image:title>
+    </image:image>
+  </url>
+
+  <!-- Product 2 Example with Image -->
+  <url>
+    <loc>https://superstoreindia.netlify.app/</loc>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dgugrfacv/image/upload/v1/smart_product/product2.jpg</image:loc>
+      <image:title><![CDATA[Elite Wine-Red Textured Slim-Fit Blazer]]></image:title>
+    </image:image>
+  </url>
+
+</urlset>
